@@ -1,6 +1,6 @@
 
 
-<canvas width="800px" height="600px" id="canvas"></canvas>
+<canvas width="200px" height="200px" id="canvas"></canvas>
 
 <script type="application/javascript">
 var poly1=[ 5,5, 100,50, 50,100, 10,90 ];
@@ -18,7 +18,30 @@ var ctx = canvas.getContext('2d');
         addPoly();
     }
     
-    
+    function distanceFromBlue() {
+        // Get the CanvasPixelArray from the given coordinates and dimensions.
+        var imgd = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        var pix = imgd.data;
+        
+        var distanceTotal = 0;
+
+        // Loop over each pixel and invert the color.
+        for (var i = 0, n = pix.length; i < n; i += 4) {
+            //pix[i  ] =  // red
+            //pix[i+1] =  // green
+            //pix[i+2] =  // blue
+            // i+3 is alpha (the fourth element)
+            
+            distanceTotal += pix[i];
+            distanceTotal += pix[i+1];
+            distanceTotal += 255 - pix[i+2];
+        }
+        
+        console.log(distanceTotal);
+
+        // Draw the ImageData at the given (x,y) coordinates.
+        //ctx.putImageData(imgd, 0, 0);
+    }
     
     init();
     function init() {
@@ -31,7 +54,7 @@ var ctx = canvas.getContext('2d');
         for (i = 0; i < polyArray.length; i++) {
             drawPoly(polyArray[i].points, polyArray[i].colour);
         }
-        console.log("Polygon count: " + polyArray.length);
+        //console.log("Polygon count: " + polyArray.length);
     }
     
     function modify() {
@@ -89,6 +112,8 @@ var ctx = canvas.getContext('2d');
 
         ctx.closePath();
         ctx.fill();
+        
+        distanceFromBlue();
     }
     
     // from http://stackoverflow.com/questions/1484506/random-color-generator-in-javascript
