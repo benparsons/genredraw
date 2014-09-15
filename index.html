@@ -1,7 +1,7 @@
 <canvas width="600px" height="598px" id="image"></canvas>
 <script type="application/javascript">
-var canvas2 = document.getElementById('image'),
-context = canvas2.getContext('2d');
+var canvasImage = document.getElementById('image'),
+ctxImage = canvasImage.getContext('2d');
 
 make_base();
 
@@ -10,7 +10,7 @@ function make_base()
   base_image = new Image();
   base_image.src = 'warp.png';
   base_image.onload = function(){
-    context.drawImage(base_image, 0, 0);
+    ctxImage.drawImage(base_image, 0, 0);
   }
 }
 </script>
@@ -24,6 +24,7 @@ var canvas=document.getElementById("canvas")
 var ctx = canvas.getContext('2d');
 //drawPoly(poly1, '#f00');
     var polyArray = [];
+    var totalDraws = 0;
     polyArray.push({
         points: poly1,
         colour: '#f00'
@@ -34,8 +35,14 @@ var ctx = canvas.getContext('2d');
         addPoly();
     }
     
-    function distanceFromRed() {
+    function distanceFromImage() {
         // Get the CanvasPixelArray from the given coordinates and dimensions.
+        
+        // get from source
+        var imgdImage = ctxImage.getImageData(0, 0, canvas.width, canvas.height);
+        var pixImage = imgdImage.data;
+        
+        // get from canvas
         var imgd = ctx.getImageData(0, 0, canvas.width, canvas.height);
         var pix = imgd.data;
         
@@ -48,9 +55,9 @@ var ctx = canvas.getContext('2d');
             //pix[i+2] =  // blue
             // i+3 is alpha (the fourth element)
             
-            distanceTotal += 255 - pix[i];
-            distanceTotal += pix[i+1];
-            distanceTotal += pix[i+2];
+            distanceTotal += Math.abs(pixImage[i] - pix[i]);
+            distanceTotal += Math.abs(pixImage[i+1] - pix[i+1]);
+            distanceTotal += Math.abs(pixImage[i+2] - pix[i+2]);
         }
         
         return distanceTotal;
@@ -74,7 +81,7 @@ var ctx = canvas.getContext('2d');
     }
     
     function modify() {
-        var beforeDistance = distanceFromRed();
+        var beforeDistance = distanceFromImage();
         
         var tempObject = JSON.parse(JSON.stringify(polyArray));
         
@@ -90,7 +97,7 @@ var ctx = canvas.getContext('2d');
         }        
         drawLoop();
         
-        var afterDistance = distanceFromRed();
+        var afterDistance = distanceFromImage();
         
         // console.log(beforeDistance + "    " + afterDistance + "     " + (beforeDistance > afterDistance));
         
@@ -129,6 +136,8 @@ var ctx = canvas.getContext('2d');
     }
     
     function drawPoly(poly, colour) {
+        
+        totalDraws++;
 
         ctx.fillStyle = colour;
 
@@ -140,6 +149,16 @@ var ctx = canvas.getContext('2d');
 
         ctx.closePath();
         ctx.fill();
+        
+        if (totalDraws % 1000 === 0) {
+            save();
+        }
+    }
+    
+    function save() {
+        var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
+        
+        window.location.href=image;
     }
     
     // from http://stackoverflow.com/questions/1484506/random-color-generator-in-javascript
