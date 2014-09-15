@@ -1,6 +1,22 @@
+<canvas width="600px" height="598px" id="image"></canvas>
+<script type="application/javascript">
+var canvas2 = document.getElementById('image'),
+context = canvas2.getContext('2d');
+
+make_base();
+
+function make_base()
+{
+  base_image = new Image();
+  base_image.src = 'warp.png';
+  base_image.onload = function(){
+    context.drawImage(base_image, 0, 0);
+  }
+}
+</script>
 
 
-<canvas width="200px" height="200px" id="canvas"></canvas>
+<canvas width="600px" height="598px" id="canvas"></canvas>
 
 <script type="application/javascript">
 var poly1=[ 5,5, 100,50, 50,100, 10,90 ];
