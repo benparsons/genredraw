@@ -25,6 +25,7 @@ var ctx = canvas.getContext('2d');
 //drawPoly(poly1, '#f00');
     var polyArray = [];
     var totalDraws = 0;
+    var currentDistance;
     polyArray.push({
         points: poly1,
         colour: '#f00'
@@ -81,8 +82,6 @@ var ctx = canvas.getContext('2d');
     }
     
     function modify() {
-        var beforeDistance = distanceFromImage();
-        
         var tempObject = JSON.parse(JSON.stringify(polyArray));
         
         var changeMode = randomIntFromInterval(0, 100);
@@ -97,14 +96,18 @@ var ctx = canvas.getContext('2d');
         }        
         drawLoop();
         
-        var afterDistance = distanceFromImage();
+        var tempDistance = distanceFromImage();
         
         // console.log(beforeDistance + "    " + afterDistance + "     " + (beforeDistance > afterDistance));
         
         
-        if (beforeDistance < afterDistance) {
+        if (currentDistance < tempDistance) {
             polyArray = JSON.parse(JSON.stringify(tempObject));
         }
+        else {
+            currentDistance = tempDistance;
+        }
+        //console.log(currentDistance);
     }
     
     function addPoly() {
@@ -150,8 +153,8 @@ var ctx = canvas.getContext('2d');
         ctx.closePath();
         ctx.fill();
         
-        if (totalDraws % 1000 === 0) {
-            save();
+        if (totalDraws % 5000 === 0) {
+            //save();
         }
     }
     
@@ -159,6 +162,10 @@ var ctx = canvas.getContext('2d');
         var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
         
         window.location.href=image;
+    }
+    
+    function status() {
+        console.log((new Date()).toISOString()	+ "\t" + totalDraws + "\t" + currentDistance);
     }
     
     // from http://stackoverflow.com/questions/1484506/random-color-generator-in-javascript
