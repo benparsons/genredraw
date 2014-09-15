@@ -27,12 +27,28 @@ var ctx = canvas.getContext('2d');
         });
     }
     
+    
+    
     init();
     function init() {
+        drawLoop();
+        setInterval(modify, 100);
+    }
+    
+    function drawLoop() {
+        canvas.width = canvas.width;
         for (i = 0; i < polyArray.length; i++) {
             drawPoly(polyArray[i].points, polyArray[i].colour);
             
         }
+    }
+    
+    function modify() {
+        var polyIndex = randomIntFromInterval(0, polyArray.length - 1);
+        var pointIndex = randomIntFromInterval(0, polyArray[polyIndex].points.length - 1);
+        polyArray[polyIndex].points[pointIndex] += randomIntFromInterval(-10,10);
+        
+        drawLoop();
     }
     
     function drawPoly(poly, colour) {
