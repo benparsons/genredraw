@@ -18,7 +18,7 @@ var ctx = canvas.getContext('2d');
         addPoly();
     }
     
-    function distanceFromBlue() {
+    function distanceFromRed() {
         // Get the CanvasPixelArray from the given coordinates and dimensions.
         var imgd = ctx.getImageData(0, 0, canvas.width, canvas.height);
         var pix = imgd.data;
@@ -32,12 +32,12 @@ var ctx = canvas.getContext('2d');
             //pix[i+2] =  // blue
             // i+3 is alpha (the fourth element)
             
-            distanceTotal += pix[i];
+            distanceTotal += 255 - pix[i];
             distanceTotal += pix[i+1];
-            distanceTotal += 255 - pix[i+2];
+            distanceTotal += pix[i+2];
         }
         
-        console.log(distanceTotal);
+        return distanceTotal;
 
         // Draw the ImageData at the given (x,y) coordinates.
         //ctx.putImageData(imgd, 0, 0);
@@ -58,6 +58,10 @@ var ctx = canvas.getContext('2d');
     }
     
     function modify() {
+        var beforeDistance = distanceFromRed();
+        
+        var tempObject = JSON.parse(JSON.stringify(polyArray));
+        
         var changeMode = randomIntFromInterval(0, 100);
         if (changeMode < 50){
             modifyPoly();
@@ -67,9 +71,17 @@ var ctx = canvas.getContext('2d');
         }
         else {
             removePoly();
-        }
-        
+        }        
         drawLoop();
+        
+        var afterDistance = distanceFromRed();
+        
+        // console.log(beforeDistance + "    " + afterDistance + "     " + (beforeDistance > afterDistance));
+        
+        
+        if (beforeDistance < afterDistance) {
+            polyArray = JSON.parse(JSON.stringify(tempObject));
+        }
     }
     
     function addPoly() {
@@ -112,8 +124,6 @@ var ctx = canvas.getContext('2d');
 
         ctx.closePath();
         ctx.fill();
-        
-        distanceFromBlue();
     }
     
     // from http://stackoverflow.com/questions/1484506/random-color-generator-in-javascript
