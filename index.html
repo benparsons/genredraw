@@ -15,16 +15,7 @@ var ctx = canvas.getContext('2d');
     
     
     for (var i = 0; i < randomIntFromInterval(10,20); i++) {
-        var pointCount = randomIntFromInterval(4, 5);
-        var points = [];
-        for (var j = 0; j < pointCount; j++) {
-            points.push(randomIntFromInterval(0, canvas.width));
-            points.push(randomIntFromInterval(0, canvas.height));
-        }
-        polyArray.push({
-            points: points,
-            colour: getRandomColor()
-        });
+        addPoly();
     }
     
     
@@ -44,11 +35,34 @@ var ctx = canvas.getContext('2d');
     }
     
     function modify() {
+        var changeMode = randomIntFromInterval(0, 100);
+        if (changeMode < 50){
+            modifyPoly();
+        }
+        else if (changeMode < 75) {
+            addPoly();
+        }
+        
+        drawLoop();
+    }
+    
+    function addPoly() {
+        var pointCount = randomIntFromInterval(4, 5);
+        var points = [];
+        for (var j = 0; j < pointCount; j++) {
+            points.push(randomIntFromInterval(0, canvas.width));
+            points.push(randomIntFromInterval(0, canvas.height));
+        }
+        polyArray.push({
+            points: points,
+            colour: getRandomColor()
+        });
+    }
+    
+    function modifyPoly() {
         var polyIndex = randomIntFromInterval(0, polyArray.length - 1);
         var pointIndex = randomIntFromInterval(0, polyArray[polyIndex].points.length - 1);
         polyArray[polyIndex].points[pointIndex] += randomIntFromInterval(-10,10);
-        
-        drawLoop();
     }
     
     function drawPoly(poly, colour) {
