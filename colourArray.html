@@ -1,19 +1,5 @@
 <canvas width="320px" height="320px" id="image"></canvas>
-<script type="application/javascript">
-var canvasImage = document.getElementById('image'),
-ctxImage = canvasImage.getContext('2d');
 
-make_base();
-
-function make_base()
-{
-  base_image = new Image();
-  base_image.src = 'help.jpg';
-  base_image.onload = function(){
-    ctxImage.drawImage(base_image, 0, 0);
-  }
-}
-</script>
 
 
 <canvas width="320px" height="320px" id="canvas"></canvas>
@@ -26,7 +12,14 @@ var ctx = canvas.getContext('2d');
     var polyArray = [];
     var totalDraws = 0;
     var currentDistance;
+    var coloursArray = [];
+        
     
+    var imgdImage;
+    var pixImage;
+    var imgd;
+    var pix;
+    var ctxImage;
     
     
     polyArray.push({
@@ -41,14 +34,6 @@ var ctx = canvas.getContext('2d');
     
     function distanceFromImage() {
         // Get the CanvasPixelArray from the given coordinates and dimensions.
-        
-        // get from source
-        var imgdImage = ctxImage.getImageData(0, 0, canvas.width, canvas.height);
-        var pixImage = imgdImage.data;
-        
-        // get from canvas
-        var imgd = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        var pix = imgd.data;
         
         var distanceTotal = 0;
 
@@ -70,12 +55,61 @@ var ctx = canvas.getContext('2d');
         //ctx.putImageData(imgd, 0, 0);
     }
     
-    init();
-    function init() {
+    function make_base()
+    {
+        base_image = new Image();
+        base_image.src = 'help.jpg';
+        base_image.onload = function(){
+            ctxImage.drawImage(base_image, 0, 0);
+            setTimeout(init2, 2000);
+        }
+    }
+    
+    function init2() {
+        //debugger;
+        // get from source
+        imgdImage = ctxImage.getImageData(0, 0, canvas.width, canvas.height);
+        pixImage = imgdImage.data;
+        
+        // get from canvas
+        imgd = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        pix = imgd.data;
+        //while (coloursArray.length < 2) {
+            console.log("sdfsdsfsd");
+            
+            for (var i = 0, n = pix.length; i < n; i += 4) {
+                var red = pix[i  ].toString(16);
+                if (red.length < 2) { red = '0' + red; }
+                var green = pix[i+1].toString(16);
+                if (green.length < 2) { green = '0' + green; }
+                var blue = pix[i+2].toString(16);
+                if (blue.length < 2) { blue = '0' + blue; }
+                var colorItem = '#' + red + green + blue;
+                if(coloursArray.indexOf(colorItem) == -1) {
+                    coloursArray.push(colorItem);
+                }
+
+                //coloursArray.push('#' + red + green + blue);
+            }
+        //}
+            //pix[i  ] =  // red
+            //pix[i+1] =  // green
+            //pix[i+2] =  // blue
+            // i+3 is alpha (the fourth element)
+        
         drawLoop();
         setInterval(modify, 10);
 		setInterval(pruneHidden, 1000 * 300); // 300 seconds
 		setInterval(status, 1000 * 60); // 60 seconds
+    }
+    
+    init();
+    function init() {
+        var canvasImage = document.getElementById('image');
+        ctxImage = canvasImage.getContext('2d');
+        make_base();
+        
+        
     }
 	
 	function pruneHidden() {
