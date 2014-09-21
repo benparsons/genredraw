@@ -1,3 +1,4 @@
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <canvas width="500px" height="500px" id="image"></canvas>
 <script type="application/javascript">
 var canvasImage = document.getElementById('image'),
@@ -8,7 +9,7 @@ make_base();
 function make_base()
 {
   base_image = new Image();
-  base_image.src = 'thevoyager.jpg';
+  base_image.src = 'londoncalling.jpg';
   base_image.onload = function(){
       
     ctxImage.drawImage(base_image, 0, 0);
@@ -31,12 +32,6 @@ var ctx = canvas.getContext('2d');
     var imgdImage;
     var pixImage;
     var coloursArray = [];
-    
-    
-    polyArray.push({
-        points: poly1,
-        colour: '#f00'
-    });
     
     
     for (var i = 0; i < randomIntFromInterval(10,20); i++) {
@@ -205,7 +200,19 @@ var ctx = canvas.getContext('2d');
     }
     
     function status() {
-        console.log((new Date()).toISOString()	+ "\t" + totalDraws + "\t" + currentDistance + "\t" + polyArray.length);
+        var statusString = (new Date()).toISOString()	+ "\t" + 
+            totalDraws + "\t" + 
+            currentDistance + "\t" + 
+            polyArray.length + "\t" + 
+            JSON.stringify(polyArray);
+        console.log(statusString);
+        //$.get('http://localhost:4040/status=' + statusString)
+        $.ajax({
+  type: "GET",
+  dataType: 'jsonp',
+  url: 'http://localhost:4040/',
+            data: {status: statusString}
+        });
     }
     
     // from http://stackoverflow.com/questions/1484506/random-color-generator-in-javascript
