@@ -9,7 +9,7 @@ make_base();
 function make_base()
 {
   base_image = new Image();
-  base_image.src = 'londoncalling.jpg';
+  base_image.src = 'computerworld.png';
   base_image.onload = function(){
       
     ctxImage.drawImage(base_image, 0, 0);
@@ -150,7 +150,7 @@ var ctx = canvas.getContext('2d');
     }
     
     function addPoly() {
-        if (polyArray.length > 50) return;
+        //if (polyArray.length > maxPolygons) return;
         
         var pointCount = randomIntFromInterval(4, 5);
         var points = [];
@@ -174,8 +174,14 @@ var ctx = canvas.getContext('2d');
     
     function modifyPoly() {
         var polyIndex = randomIntFromInterval(0, polyArray.length - 1);
-        var pointIndex = randomIntFromInterval(0, polyArray[polyIndex].points.length - 1);
-        polyArray[polyIndex].points[pointIndex] += randomIntFromInterval(-10,10);
+		
+		var changeMode = randomIntFromInterval(0, 100);
+        if (changeMode < 50){
+			var pointIndex = randomIntFromInterval(0, polyArray[polyIndex].points.length - 1);
+			polyArray[polyIndex].points[pointIndex] += randomIntFromInterval(-10,10);
+		} else {
+		    polyArray[polyIndex].colour = getRandomColor();
+		}
     }
     
     function drawPoly(poly, colour) {

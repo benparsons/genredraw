@@ -7,7 +7,7 @@ var server = http.createServer(function(req, res) {
     var url_parts = url.parse(req.url, true);
     var query = url_parts.query;
     console.log(query);
-    var log = fs.createWriteStream('londoncalling.txt', {'flags': 'a'});
+    var log = fs.createWriteStream('insilico.txt', {'flags': 'a'});
 // use {'flags': 'a'} to append and {'flags': 'w'} to erase and write a new file
     var result = query['status'];
     if (result)
