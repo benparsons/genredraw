@@ -32,6 +32,7 @@ var ctx = canvas.getContext('2d');
     var imgdImage;
     var pixImage;
     var coloursArray = [];
+	var successes = 0;
     
     
     for (var i = 0; i < randomIntFromInterval(10,20); i++) {
@@ -73,7 +74,7 @@ var ctx = canvas.getContext('2d');
         drawLoop();
         setInterval(modify, 10);
 		setInterval(pruneHidden, 1000 * 300); // 300 seconds
-		setInterval(status, 1000 * 60); // 60 seconds
+		//setInterval(status, 1000 * 60); // 60 seconds
         imgdImage = ctxImage.getImageData(0, 0, canvas.width, canvas.height);
         pixImage = imgdImage.data;
         
@@ -145,6 +146,11 @@ var ctx = canvas.getContext('2d');
         }
         else {
             currentDistance = tempDistance;
+			successes++;
+			if (successes % 10 === 0) {
+				status();
+				//console.log(successes);
+			}
         }
         //console.log(currentDistance);
     }
@@ -206,11 +212,14 @@ var ctx = canvas.getContext('2d');
     }
     
     function status() {
-        var statusString = (new Date()).toISOString()	+ "\t" + 
-            totalDraws + "\t" + 
-            currentDistance + "\t" + 
-            polyArray.length + "\t" + 
-            JSON.stringify(polyArray);
+		var statusObj = {};
+		statusObj.date = (new Date()).toISOString();
+		statusObj.totalDraws = totalDraws;
+		statusObj.successes = successes;
+		statusObj.currentDistance = currentDistance;
+		statusObj.polyArrayLength = polyArray.length;
+		statusObj.polyArray = polyArray;
+		statusString = JSON.stringify(statusObj);
         console.log(statusString);
         //$.get('http://localhost:4040/status=' + statusString)
         $.ajax({
