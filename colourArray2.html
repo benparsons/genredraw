@@ -1,6 +1,13 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <canvas width="500px" height="500px" id="image"></canvas>
 <script type="application/javascript">
+</script>
+
+
+<canvas width="500px" height="500px" id="canvas"></canvas>
+
+<script type="application/javascript">
+var filename = getParameterByName("filename")
 var canvasImage = document.getElementById('image'),
 ctxImage = canvasImage.getContext('2d');
 
@@ -9,18 +16,13 @@ make_base();
 function make_base()
 {
   base_image = new Image();
-  base_image.src = 'computerworld.png';
+  base_image.src = filename;
   base_image.onload = function(){
       
     ctxImage.drawImage(base_image, 0, 0);
   }
 }
-</script>
 
-
-<canvas width="500px" height="500px" id="canvas"></canvas>
-
-<script type="application/javascript">
 var canvas=document.getElementById("canvas")
 
 var ctx = canvas.getContext('2d');
@@ -218,7 +220,7 @@ var ctx = canvas.getContext('2d');
   type: "GET",
   dataType: 'jsonp',
   url: 'http://localhost:4040/',
-            data: {status: statusString}
+            data: {status: statusString, filename: filename}
         });
     }
     
@@ -240,4 +242,12 @@ var ctx = canvas.getContext('2d');
     {
         return Math.floor(Math.random()*(max-min+1)+min);
     }
+	
+	// http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
+	function getParameterByName(name) {
+		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+			results = regex.exec(location.search);
+		return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	}
 </script>
