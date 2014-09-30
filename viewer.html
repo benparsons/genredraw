@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Example - example-example42-production</title>
+  <link href="animations.css" rel="stylesheet" type="text/css">
+  
+
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.3/angular.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.3/angular-animate.js"></script>
+  
+<script>
+
+function UserCtrl($scope, $http) {
+
+    $scope.users = [] // Initialize with an empty array
+    $scope.parsed = [] // Initialize with an empty array
+
+    //$http.get('undefined.txt').success(function(data, status, headers, config) {
+        // When the request is successful, add value to $scope.users
+    //    $scope.users = data;//.split(',')
+    //})
+	
+	$http({method: "GET", url: "londoncalling-colourchange.txt", transformResponse: function(data) { return data; }})
+		.success(function(data){
+			$scope.users = data.split('\n');
+			angular.forEach($scope.users, function(str) {
+				if (str && str.length > 0) {
+					try {
+						$scope.parsed.push(JSON.parse(str));
+					}
+					catch(err) {
+						console.log(str);
+					}
+					
+					
+				}
+			});
+		  // data should be text string here (only if the server response is text/plain)
+		}
+	);
+	
+	$scope.draw = function(_polyArray) {
+		polyArray = _polyArray; 
+		drawLoop();
+	};
+}
+
+var myapp = angular.module('myapp', []);
+
+myapp.controller('UserCtrl', UserCtrl);
+</script>
+  
+</head>
+<body ng-app="myapp">
+    
+  <div ng-controller="UserCtrl">
+            <div style="float:left; height:500px; overflow:scroll;">
+			
+			<ul class="unstyled">
+                <li ng-repeat="user in parsed">
+                    <div ng-click="draw(user.polyArray)">{{user.date}}</div>
+                </li>
+            </ul>
+			</div>
+            <div style="float:left">
+<canvas width="500px" height="500px" id="canvas"></canvas>
+			</div>
+        </div>
+		<script>
+var polyArray = [];
+var canvas=document.getElementById("canvas")
+
+var ctx = canvas.getContext('2d');
+	function drawLoop() {
+        canvas.width = canvas.width;
+        for (i = 0; i < polyArray.length; i++) {
+            drawPoly(polyArray[i].points, polyArray[i].colour);
+        }
+    }
+	function drawPoly(poly, colour) {
+        ctx.fillStyle = colour;
+
+        ctx.beginPath();
+        ctx.moveTo(poly[0], poly[1]);
+        for( item=2 ; item < poly.length-1 ; item+=2 ){
+            ctx.lineTo( poly[item] , poly[item+1] )
+        }
+
+        ctx.closePath();
+        
+        ctx.fill();
+    }
+	</script>
+</body>
+</html>
