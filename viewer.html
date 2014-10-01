@@ -11,6 +11,14 @@
   
 <script>
 
+	// http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
+	function getParameterByName(name) {
+		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+			results = regex.exec(location.search);
+		return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	}
+    var filename = getParameterByName("filename");
 function UserCtrl($scope, $http) {
 
     $scope.users = [] // Initialize with an empty array
@@ -21,7 +29,7 @@ function UserCtrl($scope, $http) {
     //    $scope.users = data;//.split(',')
     //})
 	
-	$http({method: "GET", url: "londoncalling-colourchange.txt", transformResponse: function(data) { return data; }})
+	$http({method: "GET", url: filename + ".txt", transformResponse: function(data) { return data; }})
 		.success(function(data){
 			$scope.users = data.split('\n');
 			angular.forEach($scope.users, function(str) {
