@@ -24,11 +24,8 @@ function UserCtrl($scope, $http) {
     $scope.users = [] // Initialize with an empty array
     $scope.parsed = [] // Initialize with an empty array
 
-    //$http.get('undefined.txt').success(function(data, status, headers, config) {
-        // When the request is successful, add value to $scope.users
-    //    $scope.users = data;//.split(',')
-    //})
-	
+    
+	// https://github.com/angular/angular.js/issues/1448#issuecomment-10826160
 	$http({method: "GET", url: filename + ".txt", transformResponse: function(data) { return data; }})
 		.success(function(data){
 			$scope.users = data.split('\n');
