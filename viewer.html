@@ -35,7 +35,7 @@ function UserCtrl($scope, $http) {
         $scope.parsed = [] // Initialize with an empty array
         $scope.index = 0;
 
-        $http({method: "GET", url: filename + ".txt", transformResponse: function (data) {
+        $http({method: "GET", url: filename + ".txt?" + (new Date).toJSON(), transformResponse: function (data) {
             return data;
         }})
                 .success(function (data) {

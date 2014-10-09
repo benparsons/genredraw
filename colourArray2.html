@@ -83,14 +83,14 @@ var ctx = canvas.getContext('2d');
             var colorItem = '#' + red + green + blue;
             if(coloursArray.indexOf(colorItem) == -1) {
                 coloursArray.push(colorItem);
-                if (coloursArray.length % 100 === 0) {
+                if (coloursArray.length % 1000 === 0) {
                     console.log("coloursArray.length: " + coloursArray.length);
-                    $.ajax({
-                        type: "GET",
-                        dataType: 'jsonp',
-                        url: 'http://localhost:4040/',
-                        data: {status: coloursArray.length, filename: filename}
-                    })
+//                    $.ajax({
+//                        type: "GET",
+//                        dataType: 'jsonp',
+//                        url: 'http://localhost:4040/',
+//                        data: {status: coloursArray.length, filename: filename}
+//                    })
                 }
             }
         }

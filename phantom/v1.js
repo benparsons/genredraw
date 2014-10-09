@@ -2,7 +2,7 @@ var page = require('webpage').create();
 console.log('The default user agent is ' + page.settings.userAgent);
 page.settings.userAgent = 'SpecialAgent';
 var url = 'http://www.httpuseragent.org';
-url = 'http://localhost:8080/colourArray2.html?filename=source/originalpiratematerial.jpg';
+url = 'http://localhost:8080/colourArray2.html?filename=source/londoncalling.jpg';
 page.open(url, function(status) {
     if (status !== 'success') {
         console.log('Unable to access network');
