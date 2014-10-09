@@ -23,6 +23,7 @@ function UserCtrl($scope, $http) {
 
     $scope.users = [] // Initialize with an empty array
     $scope.parsed = [] // Initialize with an empty array
+    $scope.index = 0;
 
     //$http.get('undefined.txt').success(function(data, status, headers, config) {
         // When the request is successful, add value to $scope.users
@@ -44,10 +45,17 @@ function UserCtrl($scope, $http) {
 					
 				}
 			});
-		  // data should be text string here (only if the server response is text/plain)
+            setInterval(drawFrame, 50);
+            // data should be text string here (only if the server response is text/plain)
 		}
 	);
 	
+    function drawFrame() {
+        //debugger;
+        $scope.draw($scope.parsed[$scope.index].polyArray);
+        $scope.index++;
+    }
+            
 	$scope.draw = function(_polyArray) {
 		polyArray = _polyArray; 
 		drawLoop();
@@ -88,11 +96,13 @@ var ctx = canvas.getContext('2d');
     }
 	function drawPoly(poly, colour) {
         ctx.fillStyle = colour;
-
+var offset = 0;
         ctx.beginPath();
-        ctx.moveTo(poly[0], poly[1]);
+        ctx.moveTo(poly[0] * 1 + offset , poly[1]*1 + offset );
         for( item=2 ; item < poly.length-1 ; item+=2 ){
-            ctx.lineTo( poly[item] , poly[item+1] )
+            var newX = (poly[item]) * 1 + offset;
+            var newY = (poly[item+1]) * 1 + offset;
+            ctx.lineTo( newX , newY )
         }
 
         ctx.closePath();

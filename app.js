@@ -8,7 +8,7 @@ var server = http.createServer(function(req, res) {
     var url_parts = url.parse(req.url, true);
     var query = url_parts.query;
     //console.log(query);
-    var log = fs.createWriteStream(query['filename'] + '.txt', {'flags': 'a'});
+    var log = fs.createWriteStream('output/' + query['filename'] + '.' + (new Date()).getDate() + '.txt', {'flags': 'a'});
 // use {'flags': 'a'} to append and {'flags': 'w'} to erase and write a new file
     var result = query['status'];
     if (result)
