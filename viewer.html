@@ -74,7 +74,27 @@ function UserCtrl($scope, $http) {
             $scope.index = 0;
         }
     }
-            
+
+	// https://github.com/angular/angular.js/issues/1448#issuecomment-10826160
+	$http({method: "GET", url: filename + ".txt", transformResponse: function(data) { return data; }})
+		.success(function(data){
+			$scope.users = data.split('\n');
+			angular.forEach($scope.users, function(str) {
+				if (str && str.length > 0) {
+					try {
+						$scope.parsed.push(JSON.parse(str));
+					}
+					catch(err) {
+						console.log(str);
+					}
+					
+					
+				}
+			});
+		  // data should be text string here (only if the server response is text/plain)
+		}
+	);
+
 	$scope.draw = function(_polyArray) {
 		polyArray = _polyArray; 
 		drawLoop();
