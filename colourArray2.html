@@ -128,7 +128,7 @@ var ctx = canvas.getContext('2d');
             modifyPoly();
         }
         else if (changeMode < 85) {
-            addPoly();
+            addPolyCheat();
         }
         else {
             removePoly();
@@ -164,6 +164,35 @@ var ctx = canvas.getContext('2d');
             points: points,
             colour: getRandomColor()
         });
+    }
+
+    function addPolyCheat() {
+        var cheatX = randomIntFromInterval(0, canvas.width);
+        var cheatY = randomIntFromInterval(0, canvas.height);
+        var selectedColour = ctxImage.getImageData(cheatX, cheatY, 1, 1).data;
+        var red = selectedColour[0].toString(16);
+        if (red.length < 2) { red = '0' + red; }
+        var green = selectedColour[1].toString(16);
+        if (green.length < 2) { green = '0' + green; }
+        var blue = selectedColour[2].toString(16);
+        if (blue.length < 2) { blue = '0' + blue; }
+        var colorItem = '#' + red + green + blue;
+        //return colorItem;
+        console.log(cheatX + " " + cheatY + " " + colorItem);
+
+        var pointCount = randomIntFromInterval(3, 4);
+        var points = [];
+        points.push(cheatX);
+        points.push(cheatY);
+        for (var j = 0; j < pointCount; j++) {
+            points.push(randomIntFromInterval(0, canvas.width));
+            points.push(randomIntFromInterval(0, canvas.height));
+        }
+        polyArray.push({
+            points: points,
+            colour: getRandomColor()
+        });
+
     }
     
     function removePoly(removeIndex) {
