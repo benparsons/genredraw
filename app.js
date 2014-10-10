@@ -16,6 +16,10 @@ var server = http.createServer(function(req, res) {
     log.close();
   res.end("");
 });
+server.on('error', function (err) {
+    console.log('server error', err);
+});
+
 server.listen(4040);
 
 //var viewer = http.createServer(function(req, res) {
