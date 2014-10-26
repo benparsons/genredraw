@@ -22,12 +22,12 @@
     </div>
     <div ng-repeat="frame in frames" style="float:left">
         <iframe src="{{frame.url}}" height="300px;"></iframe><br />
-        {{frame.boundingBox}}<br >
+        Bounding Box Size: {{frame.boundingBox}}<br >
         Current Distance: {{frame.currentDistance}}<br >
-        {{frame.date}}<br >
-        {{frame.polyArrayLength}}<br >
-        {{frame.successes}}<br >
-        {{frame.totalDraws}}
+        Date: {{frame.date}}<br >
+        Count: {{frame.polyArrayLength}}<br >
+        Successes: {{frame.successes}}<br >
+        Total Draws: {{frame.totalDraws}}
     </div>
 </div>
 </body>
