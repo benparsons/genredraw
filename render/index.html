@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+
+    <script src="../js/angular.min.js"></script>
+
+    <script src="../js/render.js"></script>
+    <script src="../js/util.js"></script>
+    <script>
+        var filename = "/" + getParameterByName("filename");
+        var indexes = getParameterByName("indexes").split(',');
+    </script>
+
+
+</head>
+<body ng-app="myapp">
+<div ng-controller="RenderCtrl">
+    <div>
+        {{parsed.length}}
+    </div>
+    <div ng-repeat="frame in frames" style="float:left">
+        <iframe src="{{frame.url}}" height="300px;"></iframe><br />
+        {{frame.boundingBox}}<br >
+        Current Distance: {{frame.currentDistance}}<br >
+        {{frame.date}}<br >
+        {{frame.polyArrayLength}}<br >
+        {{frame.successes}}<br >
+        {{frame.totalDraws}}
+    </div>
+</div>
+</body>
+</html>
