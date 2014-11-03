@@ -23,27 +23,25 @@ function RenderCtrl($scope, $http) {
 
 
                     }
-                });drawFrame()
+                });
+
+                $scope.indexes = [];
+
+
+                angular.forEach(indexes, function (value, key) {
+                    var newFrame = $scope.parsed[value];
+                    newFrame.url = "http://localhost:8080/render/renderSingle.html?width=250&height=250&multiplier=0.5&background=000000&poly=" + encodeURIComponent(JSON.stringify(newFrame.polyArray));
+
+                    $scope.frames.push(newFrame);
+                });
 
                 console.log($scope.parsed.length);
                 // data should be text string here (only if the server response is text/plain)
-            }
-        );
+            });
     }
 
     init();
 
-    function drawFrame() {
-        //debugger;
-        //console.log($scope.parsed.length + " " + $scope.index);
-        angular.forEach(indexes, function(value, key) {
-            var newFrame = $scope.parsed[value];
-            newFrame.url = "http://localhost:8080/render/renderSingle.html?width=250&height=250&multiplier=0.5&background=000000&poly=" + encodeURIComponent(JSON.stringify(newFrame.polyArray));
-
-            $scope.frames.push(newFrame);
-        });
-
-    }
 }
 
 var myapp = angular.module('myapp', []);

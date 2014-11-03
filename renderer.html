@@ -98,7 +98,7 @@ myapp.controller('UserCtrl', UserCtrl);
 <body ng-app="myapp">
     
   <div ng-controller="UserCtrl">
-            <div style="float:left; height:500px; overflow:scroll;">
+            <div style="float:left; height:500px; overflow:scroll;display:none;">
 			
 			<ul class="unstyled">
                 <li ng-repeat="user in parsed">
@@ -107,12 +107,12 @@ myapp.controller('UserCtrl', UserCtrl);
             </ul>
 			</div>
             <div style="float:left">
-<canvas width="500px" height="500px" id="canvas1"></canvas>
-<canvas width="500px" height="500px" id="canvas2"></canvas>
-<canvas width="500px" height="500px" id="canvas3"></canvas>
-<canvas width="500px" height="500px" id="canvas4"></canvas>
-<canvas width="500px" height="500px" id="canvas5"></canvas>
-<canvas width="500px" height="500px" id="canvas6"></canvas>
+<canvas width="1155px" height="1155px" id="canvas1"></canvas>
+<canvas width="1155px" height="1155px" id="canvas2"></canvas>
+<canvas width="1155px" height="1155px" id="canvas3"></canvas>
+<canvas width="1155px" height="1155px" id="canvas4"></canvas>
+<canvas width="1155px" height="1155px" id="canvas5"></canvas>
+<canvas width="1155px" height="1155px" id="canvas6"></canvas>
 			</div>
         </div>
 		<script>
@@ -132,10 +132,10 @@ var ctx;
         ctx.fillStyle = colour;
 var offset = 0;
         ctx.beginPath();
-        ctx.moveTo(poly[0] * 1 + offset , poly[1]*1 + offset );
+        ctx.moveTo(poly[0] * 2.31 + offset , poly[1]*2.31 + offset );
         for( item=2 ; item < poly.length-1 ; item+=2 ){
-            var newX = (poly[item]) * 1 + offset;
-            var newY = (poly[item+1]) * 1 + offset;
+            var newX = (poly[item]) * 2.31 + offset;
+            var newY = (poly[item+1]) * 2.31 + offset;
             ctx.lineTo( newX , newY )
         }
 

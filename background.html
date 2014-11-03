@@ -8,7 +8,7 @@ debugger;
 var filename = getParameterByName("filename");
 var background = getParameterByName("background");
 if (! background) {
-    background = "#ffffff";
+    background = "ffffff";
 }
 var canvasImage = document.getElementById('image'),
 ctxImage = canvasImage.getContext('2d');
@@ -124,8 +124,8 @@ var ctx = canvas.getContext('2d');
         totalDraws++;
 
         //canvas.width = canvas.width;
-        ctx.rect(0,0,canvas.width,canvas.height);
         ctx.fillStyle= "#" + background;
+        ctx.rect(0,0,canvas.width,canvas.height);
         ctx.fill();
 
         for (i = 0; i < polyArray.length; i++) {
